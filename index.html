@@ -1,93 +1,957 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>StyleText – Stylish Text Generator</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f5f7fb;
-      color: #222;
-    }
-    .container {
-      max-width: 900px;
-      margin: auto;
-      padding: 40px 20px;
-    }
-    header {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-    header h1 {
-      font-size: 36px;
-      margin-bottom: 10px;
-    }
-    header p {
-      color: #555;
-      font-size: 16px;
-    }
-    .box {
-      background: #fff;
-      border-radius: 12px;
-      padding: 30px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-    }
-    textarea {
-      width: 100%;
-      height: 100px;
-      padding: 15px;
-      font-size: 16px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      resize: none;
-    }
-    button {
-      margin-top: 15px;
-      padding: 12px 25px;
-      font-size: 16px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      background: #4f46e5;
-      color: #fff;
-    }
-    button:hover {
-      background: #4338ca;
-    }
-    .results {
-      margin-top: 30px;
-    }
-    .style-item {
-      background: #f1f3ff;
-      padding: 12px 15px;
-      border-radius: 8px;
-      margin-bottom: 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .style-item span {
-      font-size: 18px;
-    }
-    .copy-btn {
-      background: #22c55e;
-      padding: 6px 12px;
-      font-size: 14px;
-      border-radius: 6px;
-    }
-    footer {
-      text-align: center;
-      margin-top: 50px;
-      color: #666;
-      font-size: 14px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StyleText - Convert Normal Text into Stylish Text Instantly</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6d5df1;
+            --primary-light: #8b7cf4;
+            --primary-dark: #5a4bd8;
+            --secondary: #f8f9fa;
+            --dark: #1a1c2e;
+            --light: #f7f9fc;
+            --gray: #6c757d;
+            --gray-light: #e8eaf1;
+            --success: #2ecc71;
+            --radius: 14px;
+            --shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark);
+            background: linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            padding: 20px 0;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            font-size: 1.9rem;
+            background: linear-gradient(135deg, var(--primary), #9d4edd);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .logo i {
+            font-size: 2.2rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 35px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            bottom: -5px;
+            left: 0;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 100px 0 80px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(109, 93, 241, 0.05) 0%, rgba(157, 78, 221, 0.05) 100%);
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 25px;
+            line-height: 1.2;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, var(--primary), #9d4edd);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto 50px;
+        }
+        
+        .hero-input-container {
+            background: white;
+            border-radius: var(--radius);
+            padding: 40px;
+            max-width: 900px;
+            margin: 0 auto;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        input, textarea {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            padding: 18px 20px;
+            border: 2px solid var(--gray-light);
+            border-radius: var(--radius);
+            width: 100%;
+            transition: var(--transition);
+            background: #fcfcff;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(109, 93, 241, 0.1);
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 18px 35px;
+            border-radius: var(--radius);
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(109, 93, 241, 0.3);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d, #5a6268);
+        }
+        
+        .btn-secondary:hover {
+            box-shadow: 0 10px 25px rgba(108, 117, 125, 0.3);
+        }
+        
+        /* Text Generator Section */
+        .section {
+            padding: 100px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto 60px;
+            font-size: 1.2rem;
+        }
+        
+        .generator-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+        
+        @media (max-width: 992px) {
+            .generator-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .generator-box {
+            background: white;
+            border-radius: var(--radius);
+            padding: 35px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .generator-box h3 {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .text-output {
+            background: #fcfcff;
+            border-radius: var(--radius);
+            padding: 25px;
+            min-height: 180px;
+            border: 2px solid var(--gray-light);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            overflow-wrap: break-word;
+            line-height: 1.5;
+            overflow-y: auto;
+            max-height: 300px;
+        }
+        
+        /* Styles Grid */
+        .styles-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+        
+        .filter-btn {
+            padding: 10px 20px;
+            background: white;
+            border: 2px solid var(--gray-light);
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .styles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .styles-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .style-item {
+            background: white;
+            border-radius: var(--radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+        
+        .style-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+        
+        .style-content {
+            flex: 1;
+        }
+        
+        .style-name {
+            font-size: 1rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .style-text {
+            font-size: 1.4rem;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 5px;
+        }
+        
+        .style-info {
+            font-size: 0.85rem;
+            color: var(--gray);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .copy-btn {
+            background: var(--secondary);
+            color: var(--dark);
+            border: none;
+            padding: 10px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        
+        .copy-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .copy-btn.copied {
+            background: var(--success);
+            color: white;
+        }
+        
+        /* Features Section */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 35px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 35px 30px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            color: white;
+            font-size: 2rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+        }
+        
+        .feature-card p {
+            color: var(--gray);
+        }
+        
+        /* Use Cases Section */
+        .use-cases {
+            background: linear-gradient(135deg, rgba(109, 93, 241, 0.05) 0%, rgba(157, 78, 221, 0.05) 100%);
+        }
+        
+        .use-cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .use-case-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .use-case-card:hover {
+            transform: translateY(-8px);
+        }
+        
+        .use-case-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            color: white;
+            font-size: 1.8rem;
+        }
+        
+        .use-case-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        /* Why Choose Section */
+        .why-choose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 35px;
+        }
+        
+        .why-choose-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 35px 30px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .why-choose-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .why-choose-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 80px 0 40px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+        
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #8b7cf4, #b794f4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .footer-description {
+            color: #a0aec0;
+            margin-bottom: 25px;
+            line-height: 1.7;
+        }
+        
+        .footer-links h4 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            color: white;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: #a0aec0;
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid #2d3748;
+            color: #a0aec0;
+            font-size: 0.95rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .input-group {
+                flex-direction: column;
+            }
+            
+            .section {
+                padding: 70px 0;
+            }
+            
+            .hero-input-container {
+                padding: 30px 20px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero {
+                padding: 70px 0 50px;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .generator-box {
+                padding: 25px 20px;
+            }
+            
+            .text-output {
+                font-size: 1.5rem;
+                padding: 20px;
+            }
+        }
+        
+        /* Notification */
+        .notification {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--success);
+            color: white;
+            padding: 15px 25px;
+            border-radius: var(--radius);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+        
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
+    <!-- Header -->
     <header>
-      <h1>StyleText</h1>
-      <p>Convert normal text into stylish text instantly</p>
-    </header><div class="box">
-  <textarea id="inputText" placeholder="Enter your text here...
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-pen-fancy"></i>
+                    <span>StyleText</span>
+                </div>
+                <nav class="nav-links">
+                    <a href="#generator">Text Generator</a>
+                    <a href="#features">Features</a>
+                    <a href="#use-cases">Use Cases</a>
+                    <a href="#why-choose">Why Choose Us</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1><span class="hero-gradient">StyleText</span> – Convert Normal Text into <span class="hero-gradient">50+ Stylish Text Fonts</span> Instantly</h1>
+            <p>Transform your plain text into eye-catching stylish fonts with our free online tool. Perfect for social media, gaming, and creative projects.</p>
+            
+            <div class="hero-input-container">
+                <div class="input-group">
+                    <input type="text" id="hero-input" placeholder="Enter your normal text here (e.g., Hello World!)" value="Hello World!">
+                    <button class="btn" id="generate-btn">
+                        <i class="fas fa-magic"></i>
+                        Generate Stylish Text
+                    </button>
+                </div>
+                <p style="color: var(--gray); font-size: 0.95rem; margin-top: 15px;">
+                    <i class="fas fa-bolt" style="color: var(--primary);"></i> No login required • <i class="fas fa-font" style="color: var(--primary);"></i> 50+ Font Styles • <i class="fas fa-mobile-alt" style="color: var(--primary);"></i> Works on all devices
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Text Generator Section -->
+    <section class="section" id="generator">
+        <div class="container">
+            <h2 class="section-title">Text Generator with 50+ Font Styles</h2>
+            <p class="section-subtitle">Enter your text below and instantly generate dozens of stylish text variations. Click any style to copy it!</p>
+            
+            <div class="generator-container">
+                <div class="generator-box">
+                    <h3><i class="fas fa-keyboard"></i> Input Normal Text</h3>
+                    <textarea id="normal-text" placeholder="Type or paste your normal text here..." rows="7">Hello World! Welcome to StyleText</textarea>
+                    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                        <button class="btn" id="generate-all-btn">
+                            <i class="fas fa-sync-alt"></i>
+                            Generate All Styles
+                        </button>
+                        <button class="btn btn-secondary" id="clear-btn">
+                            <i class="fas fa-eraser"></i>
+                            Clear
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="generator-box">
+                    <h3><i class="fas fa-eye"></i> Live Preview</h3>
+                    <div class="text-output" id="preview-output">𝖍𝖊𝖑𝖑𝖔 𝖜𝖔𝖗𝖑𝖉! 𝖜𝖊𝖑𝖈𝖔𝖒𝖊 𝖙𝖔 𝖘𝖙𝖞𝖑𝖊𝖙𝖊𝖝𝖙</div>
+                    <button class="btn btn-secondary" id="copy-preview-btn">
+                        <i class="far fa-copy"></i>
+                        Copy Preview
+                    </button>
+                </div>
+            </div>
+            
+            <div class="styles-filter" id="styles-filter">
+                <button class="filter-btn active" data-filter="all">All Styles</button>
+                <button class="filter-btn" data-filter="fancy">Fancy Fonts</button>
+                <button class="filter-btn" data-filter="bold">Bold Fonts</button>
+                <button class="filter-btn" data-filter="cursive">Cursive Fonts</button>
+                <button class="filter-btn" data-filter="special">Special Fonts</button>
+                <button class="filter-btn" data-filter="social">Social Media</button>
+            </div>
+            
+            <div class="styles-grid" id="styles-container">
+                <!-- Styles will be generated here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section" id="features" style="background-color: var(--light);">
+        <div class="container">
+            <h2 class="section-title">Amazing Features</h2>
+            <p class="section-subtitle">StyleText offers a comprehensive set of features to make text conversion easy and fun.</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Fast & Free</h3>
+                    <p>Convert your text to stylish fonts instantly without any cost. No registration required.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-font"></i>
+                    </div>
+                    <h3>50+ Font Styles</h3>
+                    <p>Access dozens of unique text styles including cursive, bold, fancy, and decorative fonts.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-copy"></i>
+                    </div>
+                    <h3>One-Click Copy</h3>
+                    <p>Copy any styled text with a single click. Works on all modern browsers and devices.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Mobile-Friendly</h3>
+                    <p>Use StyleText on any device - desktop, tablet, or mobile. Fully responsive design.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>No Data Stored</h3>
+                    <p>Your text is processed securely in your browser. No data is stored on our servers.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>Web-Based Tool</h3>
+                    <p>No downloads or installations required. Access StyleText directly from your browser.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases Section -->
+    <section class="section use-cases" id="use-cases">
+        <div class="container">
+            <h2 class="section-title">Use Cases</h2>
+            <p class="section-subtitle">Discover how StyleText can enhance your digital presence across various platforms.</p>
+            
+            <div class="use-cases-grid">
+                <div class="use-case-card">
+                    <div class="use-case-icon">
+                        <i class="fab fa-instagram"></i>
+                    </div>
+                    <h3>Instagram Bios</h3>
+                    <p>Stand out on Instagram with eye-catching bios and profiles that attract more followers.</p>
+                </div>
+                
+                <div class="use-case-card">
+                    <div class="use-case-icon">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <h3>WhatsApp Messages</h3>
+                    <p>Make your messages more engaging with stylish text that grabs attention in chats.</p>
+                </div>
+                
+                <div class="use-case-card">
+                    <div class="use-case-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h3>Gaming Usernames</h3>
+                    <p>Create unique and cool usernames for your gaming profiles across all platforms.</p>
+                </div>
+                
+                <div class="use-case-card">
+                    <div class="use-case-icon">
+                        <i class="fab fa-tiktok"></i>
+                    </div>
+                    <h3>TikTok Bios</h3>
+                    <p>Make your TikTok profile stand out with creative text styles that match your content.</p>
+                </div>
+                
+                <div class="use-case-card">
+                    <div class="use-case-icon">
+                        <i class="fab fa-twitter"></i>
+                    </div>
+                    <h3>Twitter Handles</h3>
+                    <p>Create memorable Twitter display names that make your profile more discoverable.</p>
+                </div>
+                
+                <div class="use-case-card">
+                    <div class="use-case-icon">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <h3>Spotify Playlists</h3>
+                    <p>Design eye-catching playlist names that reflect your music taste and attract listeners.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose StyleText -->
+    <section class="section" id="why-choose">
+        <div class="container">
+            <h2 class="section-title">Why Choose StyleText</h2>
+            <p class="section-subtitle">Our tool is designed with user experience and functionality as top priorities.</p>
+            
+            <div class="why-choose-grid">
+                <div class="why-choose-card">
+                    <h3><i class="fas fa-paint-brush"></i> Simple & Clean UI</h3>
+                    <p>Our intuitive interface makes text conversion effortless for users of all skill levels.</p>
+                </div>
+                
+                <div class="why-choose-card">
+                    <h3><i class="fas fa-laptop-code"></i> 100% Web-Based</h3>
+                    <p>No downloads or installations required. Access StyleText directly from your browser.</p>
+                </div>
+                
+                <div class="why-choose-card">
+                    <h3><i class="fas fa-mobile-alt"></i> Works on All Devices</h3>
+                    <p>Fully responsive design ensures perfect experience on desktops, tablets, and phones.</p>
+                </div>
+                
+                <div class="why-choose-card">
+                    <h3><i class="fas fa-shield-alt"></i> Safe & Easy to Use</h3>
+                    <p>Your text is processed securely in your browser. No data is stored on our servers.</p>
+                </div>
+                
+                <div class="why-choose-card">
+                    <h3><i class="fas fa-infinity"></i> Unlimited Usage</h3>
+                    <p>Generate as much stylish text as you want, with no limits or daily restrictions.</p>
+                </div>
+                
+                <div class="why-choose-card">
+                    <h3><i class="fas fa-rocket"></i> Instant Results</h3>
+                    <p>See your text transformed in real-time as you type, with no waiting or processing delays.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">StyleText</div>
+                    <p class="footer-description">Transform your plain text into eye-catching stylish fonts with our free online tool. Perfect for social media, gaming, and creative projects. Generate 50+ font styles instantly with one click.</p>
+                    <div style="display: flex; gap: 15px; margin-top: 20px;">
+                        <a href="#" style="color: white; font-size: 1.5rem;"><i class="fab fa-twitter"></i></a>
+                        <a href="#" style="color: white; font-size: 1.5rem;"><i class="fab fa-instagram"></i></a>
+                        <a href="#" style="color: white; font-size: 1.5rem;"><i class="fab fa-facebook"></i></a>
+                        <a href="#" style="color: white; font-size: 1.5rem;"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#generator"><i class="fas fa-arrow-right"></i> Text Generator</a></li>
+                        <li><a href="#features"><i class="fas fa-arrow-right"></i> Features</a></li>
+                        <li><a href="#use-cases"><i class="fas fa-arrow-right"></i> Use Cases</a></li>
+                        <li><a href="#why-choose"><i class="fas fa-arrow-right"></i> Why Choose Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-file-contract"></i> Privacy Policy</a></li>
+                        <li><a href="#"><i class="fas fa-balance-scale"></i> Terms of Service</a></li>
+                        <li><a href="#"><i class="fas fa-envelope"></i> Contact Us</a></li>
+                        <li><a href="#"><i class="fas fa-question-circle"></i> FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2023 StyleText. All rights reserved. This is a demo product.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span>Text copied to clipboard!</span>
+    </div>
+
+    <script>
+        // Comprehensive text transformation functions with REAL Unicode characters
+        const textTransformers = {
+            // Bold Fonts
+            "𝖇𝖔𝖑𝖉 𝖘𝖆𝖓𝖘": text => text.split('').map(c => boldSansMap[c] || c).join(''),
+            "𝐛𝐨𝐥𝐝": text => text.split('').map(c => boldMap[c] || c).join(''),
+            "𝗯𝗼𝗹𝗱 𝘀𝗮𝗻𝘀": text => text.split('').map(c => boldSansMap2[c] || c).join(''),
+            
+            // Italic Fonts
+            "𝑖𝑡𝑎𝑙𝑖𝑐": text => text.split('').map(c => italicMap[c] || c).join(''),
+            "𝘪𝘵𝘢𝘭𝘪𝘤 𝘴𝘢𝘯𝘴": text => text.split('').map(c => italicSansMap[c] || c).join(''),
+            
+            // Bold Italic Fonts
+            "𝒃𝒐𝒍𝒅 𝒊𝒕𝒂𝒍𝒊𝒄": text => text.split('').map(c => boldItalicMap[c] || c).join(''),
+            "𝙗𝙤𝙡𝙙 𝙞𝙩𝙖𝙡𝙞𝙘 𝙨𝙖𝙣𝙨": text => text.split('').map(c => boldItalicSansMap[c] || c).join(''),
+            
+            // Script/Cursive Fonts
+            "𝒸𝓊𝓇𝓈𝒾𝓋ℯ": text => text.split('').map(c => scriptMap[c] || c).join(''),
+            "𝓬𝓾𝓻𝓼𝓲𝓿𝓮 𝓫𝓸𝓵𝓭": text => text.split('').map(c => scriptBoldMap[c] || c).join(''),
+            
+            // Fancy Fonts
+            "𝔉𝔯𝔞𝔨𝔱𝔲𝔯": text => text.split('').map(c => frakturMap[c] || c).join(''),
+            "𝕕𝕠𝕦𝕓𝕝𝕖 𝕤𝕥𝕣𝕦𝕔𝕜": text => text.split('').map(c => doubleStruckMap[c] || c).join(''),
+            "🅒🅘🅡🅒🅛🅔🅓": text => text.split('').map(c => circledMap[c] || c).join(''),
+            "Ⓒⓘⓡⓒⓛⓔⓓ": text => text.split('').map(c => circledMap2[c] || c).join(''),
+            
+            // Monospace Fonts
+            "𝚖𝚘𝚗𝚘𝚜𝚙𝚊𝚌𝚎": text => text.split('').map(c => monospaceMap[c] || c).join(''),
+            
+            // Special Fonts
+            "ₛₜᵣₐᵢgₕₜ ᵤₚ": text => text.split('').map(c => superscriptMap[c] || c).join(''),
+            "sᴛʀᴀɪɢʜᴛ ᴅᴏᴡɴ": text => text.split('').map(c => subscriptMap[c] || c).join(''),
+            "🅂🅀🅄🄰🅁🄴🄳": text => text.split('').map(c => squaredMap[c] || c).join(''),
+            "🅂🅄🄿🄴🅁🅂🄲🅁🄸🄿🅃": text => text.split('').map(c => superscriptFullMap[c] || c).join('
